@@ -9,8 +9,8 @@ public class SessionUtil {
 
 	public static HttpSession getSession() {
 		FacesContext ctx = FacesContext.getCurrentInstance();
-		HttpSession sessao = (HttpSession) ctx.getExternalContext().getSession(false);
-		return sessao;
+		HttpSession session = (HttpSession) ctx.getExternalContext().getSession(false);
+		return session;
 	}
 
 	public static void setParam(String key, Object value) {

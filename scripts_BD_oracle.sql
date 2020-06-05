@@ -66,13 +66,21 @@ minvalue 0;
 
 /*2.*/
 
-create sequence SEQ_PHONE
+create sequence SEQ_CONTACT
 start with 1
 increment by 1
 maxvalue 99999
 minvalue 0;
 
 /*3.*/
+
+create sequence SEQ_PHONE
+start with 1
+increment by 1
+maxvalue 99999
+minvalue 0;
+
+/*4.*/
 
 create sequence SEQ_ADRESS
 start with 1

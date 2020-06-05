@@ -6,19 +6,19 @@ import java.sql.SQLException;
 
 public class JpaUtil {
 
-	public static Connection getConexao() throws SQLException {
+	public static Connection getConnection() throws SQLException {
 
-		Connection conexao = null;
+		Connection connection = null;
 		try {
 			Class.forName("oracle.jdbc.OracleDriver");
 
-			conexao = DriverManager.getConnection(
-					"jdbc:oracle:thin:@localhost:1521:XE", "ADILSON", "5805");
+			connection = DriverManager.getConnection(
+					"jdbc:oracle:thin:@localhost:1521:XE", "sefaz", "sefaz");
 		
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
-		return conexao;
+		return connection;
 	}
 }
