@@ -11,8 +11,6 @@
 		
 	<h1>Adicionar novo contato</h1>
 	
-	
-	
 	<style type="text/css">
 	    .label {
 	        width:20%;
@@ -40,114 +38,180 @@
 	        width:33%;
 	        padding:4px;
 	    }
+	    
+	    .semBorda tr, .semBorda td {
+			border: none !important;
+			vertical-align: top;
+		}
+	    
 	</style>
  
  
-<h:form>
-         
+<h:form id="form">
+
     <p:growl id="growl" showDetail="true" showSummary="false" sticky="false" /> 
- 
-    <p:wizard flowListener="#{userWizard.onFlowProcess}">
-        <p:tab id="personal" title="Personal">
-            <p:panel header="Personal Details">
+    
+            <p:panel header="Dados Pessoais" id="dados">
                <!--  <p:messages /> -->
                 <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText value="Nome *" />
-                    <p:inputText value="#{ContactBean.newContact.name}" required="true" label="Name"/>
- 
-                    <h:outputText value="Sobrenome: *" />
-                    <p:inputText value="#{ContactBean.newContact.lastname}" required="true" label="Sobrenome"/>
- 
-                    <h:outputText value="Email: " />
-                    <p:inputText value="#{ContactBean.newContact.email}" />
-					
+                    <h:outputText value="Nome *"/><p:inputText value="#{ContactBean.newContact.name}" required="true" label="Name"/>
+                    <h:outputText value="Sobrenome: *"/><p:inputText value="#{ContactBean.newContact.lastname}" required="true" label="Sobrenome"/>
+                    <h:outputText value="Email: "/><p:inputText value="#{ContactBean.newContact.email}" />
                 </h:panelGrid>
             </p:panel>
-        </p:tab>
- 
-        <p:tab id="address" title="Address">
-            <p:panel header="Address Details">
-                <p:messages />
-                <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText value="Street: " />
-                    <p:inputText value="#{userWizard.user.street}" />
- 
-                    <h:outputText value="Postal Code: " />
-                    <p:inputText value="#{userWizard.user.postalCode}" />
- 
-                    <h:outputText value="City: " />
-                    <p:inputText value="#{userWizard.user.city}" />
- 
-                    <h:outputText value="Skip to last: " />
-                    <h:selectBooleanCheckbox value="#{userWizard.skip}" />
-                </h:panelGrid>
+            
+            <p:panel header="Detalhe de endereço" id="endereco">
+                <p:panelGrid styleClass="semBorda">
+                	<p:row>
+                		<p:column><h:outputText value="Local: "/></p:column>
+                		<p:column>
+                			<p:selectOneButton value="#{ContactBean.newAdress.place}">
+					            <f:selectItem itemLabel="Casa" itemValue="Casa" />
+					            <f:selectItem itemLabel="Trabalho" itemValue="Trabalho" />
+					        </p:selectOneButton>
+                		</p:column>
+                		<p:column>
+		                	<p:dataTable value="#{ContactBean.listAdress}" var="ad" id="adressTable">
+					            <p:column headerText="Local">
+					                <h:outputText value="#{ad.place}" />
+					            </p:column>
+					            <p:column headerText="Numero">
+					                <h:outputText value="#{ad.numbr}" />
+					            </p:column>
+					            <p:column headerText="Rua">
+					                <h:outputText value="#{ad.street}" />
+					            </p:column>
+					            <p:column headerText="Bairro">
+					                <h:outputText value="#{ad.neighb}" />
+					            </p:column>
+					            <p:column headerText="Cidade">
+					                <h:outputText value="#{ad.city}" />
+					            </p:column>
+								<p:column headerText="Estado">
+				                	 <h:outputText value="#{ad.stateOf}" />
+			            		</p:column>		            		          
+					            <p:column headerText="Ação">
+					                <p:commandLink value="Remover" update=":form:adressTable" process=":form:adressTable">
+					                	<p:collector value="#{ad}" removeFrom="#{ContactBean.listAdress}" unique="true"/>
+					                </p:commandLink>
+					            </p:column>
+				        	</p:dataTable>
+			        </p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Numero: "/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.numbr}" /></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Rua: "/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.street}" required="true" label="Rua"/></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Bairro: "/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.neighb}" required="true" label="Bairo"/></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Cidade: "/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.city}" required="true" label="Cidade"/></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Estado: "/></p:column>
+                		<p:column>
+	                		
+	                		<p:selectOneMenu id="console" value="#{ContactBean.newAdress.stateOf}" required="true" label="Estado">
+					            <f:selectItem itemLabel="Select One" itemValue="" />
+					            	<f:selectItem itemLabel="AC" itemValue="AC" />
+									<f:selectItem itemLabel="AL" itemValue="AL" />
+									<f:selectItem itemLabel="AP" itemValue="AP" />
+									<f:selectItem itemLabel="AM" itemValue="AM" />
+									<f:selectItem itemLabel="BA" itemValue="BA" />
+									<f:selectItem itemLabel="CE" itemValue="CE" />
+									<f:selectItem itemLabel="DF" itemValue="DF" />
+									<f:selectItem itemLabel="ES" itemValue="ES" />
+									<f:selectItem itemLabel="GO" itemValue="GO" />
+									<f:selectItem itemLabel="MA" itemValue="MA" />
+									<f:selectItem itemLabel="MT" itemValue="MT" />
+									<f:selectItem itemLabel="MS" itemValue="MS" />
+									<f:selectItem itemLabel="MG" itemValue="MG" />
+									<f:selectItem itemLabel="PA" itemValue="PA" />
+									<f:selectItem itemLabel="PB" itemValue="PB" />
+									<f:selectItem itemLabel="PR" itemValue="PR" />
+									<f:selectItem itemLabel="PE" itemValue="PE" />
+									<f:selectItem itemLabel="PI" itemValue="PI" />
+									<f:selectItem itemLabel="RJ" itemValue="RJ" />
+									<f:selectItem itemLabel="RN" itemValue="RN" />
+									<f:selectItem itemLabel="RS" itemValue="RS" />
+									<f:selectItem itemLabel="RO" itemValue="RO" />
+									<f:selectItem itemLabel="RR" itemValue="RR" />
+									<f:selectItem itemLabel="SC" itemValue="SC" />
+									<f:selectItem itemLabel="SP" itemValue="SP" />
+									<f:selectItem itemLabel="SE" itemValue="SE" />
+									<f:selectItem itemLabel="TO" itemValue="TO" />
+					        </p:selectOneMenu>
+	                		
+                		</p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><p:commandButton id="resetAdress" value="limpar" type="reset"/></p:column>
+                		
+            			<p:column><p:commandButton id="addAdress" value="Add" update=":form:endereco" process=":form:endereco" action="#{ContactBean.reinit}" >
+                				  <p:collector value="#{ContactBean.newAdress}" addTo="#{ContactBean.listAdress}"  unique="true"/></p:commandButton></p:column>
+                	</p:row>
+                </p:panelGrid>
             </p:panel>
-        </p:tab>
  
-        <p:tab id="contact" title="Contact">
-            <p:panel header="Contact Information">
-                <p:messages />
-                <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText value="Email: *" />
-                    <p:inputText value="#{userWizard.user.email}" required="true" label="Email"/>
- 
-                    <h:outputText value="Phone: " />
-                    <p:inputText value="#{userWizard.user.phone}"/>
- 
-                    <h:outputText value="Additional Info: " />
-                    <p:inputText value="#{userWizard.user.info}"/>
-                </h:panelGrid>
+            <p:panel header="Detalhe de Telefone" id="telefone">
+                            <p:panelGrid styleClass="semBorda">
+                	<p:row>
+                		<p:column><h:outputText value="Tipo: "/></p:column>
+                		<p:column>
+                		    <p:selectOneButton value="#{ContactBean.newPhone.typ}">
+					            <f:selectItem itemLabel="Fixo" itemValue="Fixo" />
+					            <f:selectItem itemLabel="Móvel" itemValue="Móvel" />
+					        </p:selectOneButton>
+                		</p:column>
+                		<p:column>
+		                	<p:dataTable value="#{ContactBean.listPhones}" var="ph" id="phoneTable">
+					            <p:column headerText="Tipo">
+					                <h:outputText value="#{ph.typ}" />
+					            </p:column>
+					            <p:column headerText="Operadora">
+					                <h:outputText value="#{ph.oper}" />
+					            </p:column>
+					            <p:column headerText="Número">
+					                <h:outputText value="#{ph.numbr}" required="true" label="Número Telefone"/>
+					            </p:column>
+					            <p:column headerText="Ação">
+					                <p:commandLink value="Remover" update=":form:phoneTable" process=":form:phoneTable">
+					                	<p:collector value="#{ph}" removeFrom="#{ContactBean.listPhones}" unique="true"/>
+					                </p:commandLink>
+					            </p:column>
+				        	</p:dataTable>
+			        </p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Operadora: "/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newPhone.oper}" /></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><h:outputText value="Número: "/></p:column>
+                		<p:column><p:inputMask value="#{ContactBean.newPhone.numbr}" mask="(99)9-9999-9999"/></p:column>
+                    </p:row>
+                    <p:row>
+                		<p:column><p:commandButton id="resetPhone" value="limpar" type="reset"/></p:column>
+            			<p:column><p:commandButton id="addPhone" value="Add" update=":form:telefone" process=":form:telefone" action="#{ContactBean.reinit}" >
+                				  <p:collector value="#{ContactBean.newPhone}" addTo="#{ContactBean.listPhones}"  unique="true"/></p:commandButton></p:column>
+                	</p:row>
+                </p:panelGrid>
             </p:panel>
-        </p:tab>
  
-        <p:tab id="confirm" title="Confirmation">
-            <p:panel header="Confirmation">
-                <h:panelGrid id="confirmation" columns="3" columnClasses="grid,grid,grid">
-                    <h:panelGrid columns="2" columnClasses="label, value">
-                        <h:outputText value="Firstname: " />
-                        <h:outputText value="#{userWizard.user.firstname}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="Lastname: " />
-                        <h:outputText value="#{userWizard.user.lastname}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="Age: " />
-                        <h:outputText value="#{userWizard.user.age}" styleClass="outputLabel"/>
-                    </h:panelGrid>
- 
-                    <h:panelGrid columns="2" columnClasses="label, value">
-                        <h:outputText value="Street: " />
-                        <h:outputText value="#{userWizard.user.street}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="Postal: " />
-                        <h:outputText value="#{userWizard.user.postalCode}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="City: " />
-                        <h:outputText value="#{userWizard.user.city}" styleClass="outputLabel"/>
-                    </h:panelGrid>
- 
-                    <h:panelGrid columns="2" columnClasses="label, value">
-                        <h:outputText value="Email: " />
-                        <h:outputText value="#{userWizard.user.email}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="Phone " />
-                        <h:outputText value="#{userWizard.user.phone}" styleClass="outputLabel"/>
- 
-                        <h:outputText value="Info: " />
-                        <h:outputText value="#{userWizard.user.info}" styleClass="outputLabel"/>
- 
-                        <h:outputText />
-                        <h:outputText />
-                    </h:panelGrid>
-                </h:panelGrid>
- 
-                <p:commandButton value="Submit" action="#{userWizard.save}" update="growl2" process="@this"/>
+            <p:panel header="Confirmação">
+				<h:panelGrid columns="1">
+					<p:commandButton value="Salvar" update="@this" action="#{ContactBean.saveAll}" />
+				</h:panelGrid> 
             </p:panel>
-        </p:tab>
-    </p:wizard>
  
 </h:form>
-	
-	
 	
 </h:body>
 

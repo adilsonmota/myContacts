@@ -6,6 +6,8 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
+import org.primefaces.event.FlowEvent;
+
 import entities.Adress;
 import entities.Contact;
 import entities.Phone;
@@ -45,27 +47,28 @@ public class ContactBean {
 	}
 
 	
+    public String reinit() {
+    	this.newPhone = new Phone();
+		this.newAdress = new Adress();
+        return null;
+    }
 	
+    
+    public void saveAll() {
+    	System.out.println("Inserir no banco:");
+    	System.out.println("Tabela contato:");
+    	System.out.println(this.newContact.getName()+" "+this.newContact.getLastname()+" Email: "+this.newContact.getEmail()+" Usuário: "+this.currentUser.getId());
+    }
+    
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	public List<Phone> getListPhones() {
+		return listPhones;
+	}
+
+	public List<Adress> getListAdress() {
+		return listAdress;
+	}
+
 	public Contact getNewContact() {
 		return newContact;
 	}
@@ -84,9 +87,5 @@ public class ContactBean {
 
 	public Adress getNewAdress() {
 		return newAdress;
-	}
-
-	public void setNewAdress(Adress newAdress) {
-		this.newAdress = newAdress;
 	}
 }

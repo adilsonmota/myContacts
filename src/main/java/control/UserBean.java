@@ -34,14 +34,12 @@ public class UserBean {
 	
 	public String registerUser() {
 		
-		boolean msg = true;
+		boolean msg = true;		// SE A LISTA COMEÇAR VAZIA, VAI DIRETO PARA O INSERT
 		
 		this.registeredUsers = userDao.findAll();
 		
 		for (User listUsers : registeredUsers) {
-			System.out.println(listUsers.getUsername());
 			if (listUsers.getUsername().equals(this.newUser.getUsername())) {
-				System.out.println(listUsers.getUsername()+"|"+listUsers.getName());
 				msg= false;
 			}
 		}
@@ -54,7 +52,7 @@ public class UserBean {
 			return "index.xhtml";
 		} else {
 			this.newUser = new User();
-			message.setErrorMessage("username já está em uso!");
+			message.setErrorMessage("Este username já está em uso!");
 			message.saveMessage(false);
 		}
 		return null;
