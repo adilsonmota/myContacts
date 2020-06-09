@@ -104,6 +104,35 @@ public class UserDAOImpl implements UserDAO {
 		return listUsers;
 	}
 	
+	public User findByUsername (String username) {
+		String sql="SELECT ID, NAME, USERNAME, PASSWORD FROM TB_USER WHERE USERNAME=?";
+		
+		User user = new User();
+
+		Connection conn;
+		try {
+			conn = JpaUtil.getConnection();
+
+			PreparedStatement ps = conn.prepareStatement(sql);
+
+			ps.setString(1, username);
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				
+				user.setId(rs.getLong("ID"));
+				user.setName(rs.getString("NAME"));
+				user.setName(rs.getString("USERNAME"));
+				user.setPassword(rs.getString("PASSWORD"));
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	return user;
+	}
+	
 	private Long selectId() {
 		String sql = "SELECT SEQ_USER.NEXTVAL FROM DUAL";
 		

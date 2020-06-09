@@ -6,8 +6,12 @@ import java.util.List;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 
-import org.primefaces.event.FlowEvent;
-
+import dao.AdressDAO;
+import dao.AdressDAOImpl;
+import dao.ContactDAO;
+import dao.ContactDAOImpl;
+import dao.PhoneDAO;
+import dao.PhoneDAOImpl;
 import entities.Adress;
 import entities.Contact;
 import entities.Phone;
@@ -26,6 +30,10 @@ public class ContactBean {
 	private List<Phone> listPhones;
 	private List<Adress> listAdress;
 	
+	private ContactDAO contactDao;
+	private AdressDAO adressDao;
+	private PhoneDAO phoneDao;
+	
 	public ContactBean() {
 		
 		this.currentUser = new User();
@@ -36,12 +44,16 @@ public class ContactBean {
 		this.listPhones = new ArrayList<Phone>();
 		this.listAdress = new ArrayList<Adress>();
 		
-		getCurrentUser();
+		this.contactDao = new ContactDAOImpl();
+		this.adressDao = new AdressDAOImpl();
+		this.phoneDao = new PhoneDAOImpl();
+		
+		currentUser();
 	}
 	
 	
 	
-	private void getCurrentUser() {
+	private void currentUser() {
 		Object obj = SessionUtil.getParam("logged");
 		this.currentUser  = (User) obj;
 	}
@@ -55,9 +67,25 @@ public class ContactBean {
 	
     
     public void saveAll() {
-    	System.out.println("Inserir no banco:");
-    	System.out.println("Tabela contato:");
-    	System.out.println(this.newContact.getName()+" "+this.newContact.getLastname()+" Email: "+this.newContact.getEmail()+" Usuário: "+this.currentUser.getId());
+   	
+    	if (this.newContact.getName() != null) {
+    		this.newContact.setUser(this.currentUser);
+    		this.contactDao.insert(this.newContact);			
+    		
+    		this.newContact.setId(contactDao.lastId());
+    		
+	    	for (Adress adress : listAdress) {
+				adress.setContact(this.newContact);
+				adressDao.insert(adress);
+			}
+	    	for (Phone phone : listPhones) {
+				phone.setContact(this.newContact);
+				phoneDao.insert(this.newPhone);
+			}
+	    	this.newContact = new Contact();
+	    	this.newAdress = new Adress();
+	    	this.newPhone = new Phone();
+    	}
     }
     
 	
@@ -88,4 +116,9 @@ public class ContactBean {
 	public Adress getNewAdress() {
 		return newAdress;
 	}
+
+	public User getCurrentUser() {
+		return currentUser;
+	}
+	
 }

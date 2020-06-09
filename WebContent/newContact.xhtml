@@ -9,7 +9,9 @@
 
 <h:body>
 		
-	<h1>Adicionar novo contato</h1>
+	<h3>Olá, <h:outputText value="#{ContactBean.currentUser.name}"/></h3>
+	
+	<h3>Adicionar novo contato</h3>
 	
 	<style type="text/css">
 	    .label {
@@ -47,19 +49,21 @@
 	</style>
  
  
-<h:form id="form">
+<h:form id="form1">
 
     <p:growl id="growl" showDetail="true" showSummary="false" sticky="false" /> 
     
             <p:panel header="Dados Pessoais" id="dados">
                <!--  <p:messages /> -->
                 <h:panelGrid columns="2" columnClasses="label, value">
-                    <h:outputText value="Nome *"/><p:inputText value="#{ContactBean.newContact.name}" required="true" label="Name"/>
-                    <h:outputText value="Sobrenome: *"/><p:inputText value="#{ContactBean.newContact.lastname}" required="true" label="Sobrenome"/>
-                    <h:outputText value="Email: "/><p:inputText value="#{ContactBean.newContact.email}" />
+                    <h:outputText value="Nome *"/><p:inputText value="#{ContactBean.newContact.name}" required="true" label="Name" onblur="value=value.toUpperCase()"/>
+                    <h:outputText value="Sobrenome: *"/><p:inputText value="#{ContactBean.newContact.lastname}" required="true" label="Sobrenome" onblur="value=value.toUpperCase()"/>
+                    <h:outputText value="Email: "/><p:inputText value="#{ContactBean.newContact.email}" onblur="value=value.toLowerCase()"/>
                 </h:panelGrid>
             </p:panel>
-            
+ </h:form>
+ 
+ <h:form id="form2">           
             <p:panel header="Detalhe de endereço" id="endereco">
                 <p:panelGrid styleClass="semBorda">
                 	<p:row>
@@ -91,7 +95,7 @@
 				                	 <h:outputText value="#{ad.stateOf}" />
 			            		</p:column>		            		          
 					            <p:column headerText="Ação">
-					                <p:commandLink value="Remover" update=":form:adressTable" process=":form:adressTable">
+					                <p:commandLink value="Remover" update=":form2:adressTable" process=":form2:adressTable">
 					                	<p:collector value="#{ad}" removeFrom="#{ContactBean.listAdress}" unique="true"/>
 					                </p:commandLink>
 					            </p:column>
@@ -100,19 +104,19 @@
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Numero: "/></p:column>
-                		<p:column><p:inputText value="#{ContactBean.newAdress.numbr}" /></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.numbr}" onblur="value=value.toUpperCase()"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Rua: "/></p:column>
-                		<p:column><p:inputText value="#{ContactBean.newAdress.street}" required="true" label="Rua"/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.street}" required="true" label="Rua" onblur="value=value.toUpperCase()"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Bairro: "/></p:column>
-                		<p:column><p:inputText value="#{ContactBean.newAdress.neighb}" required="true" label="Bairo"/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.neighb}" required="true" label="Bairro" onblur="value=value.toUpperCase()"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Cidade: "/></p:column>
-                		<p:column><p:inputText value="#{ContactBean.newAdress.city}" required="true" label="Cidade"/></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newAdress.city}" required="true" label="Cidade" onblur="value=value.toUpperCase()"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Estado: "/></p:column>
@@ -154,7 +158,7 @@
                     <p:row>
                 		<p:column><p:commandButton id="resetAdress" value="limpar" type="reset"/></p:column>
                 		
-            			<p:column><p:commandButton id="addAdress" value="Add" update=":form:endereco" process=":form:endereco" action="#{ContactBean.reinit}" >
+            			<p:column><p:commandButton id="addAdress" value="Add" update=":form2:endereco" process=":form2:endereco" action="#{ContactBean.reinit}" >
                 				  <p:collector value="#{ContactBean.newAdress}" addTo="#{ContactBean.listAdress}"  unique="true"/></p:commandButton></p:column>
                 	</p:row>
                 </p:panelGrid>
@@ -179,10 +183,10 @@
 					                <h:outputText value="#{ph.oper}" />
 					            </p:column>
 					            <p:column headerText="Número">
-					                <h:outputText value="#{ph.numbr}" required="true" label="Número Telefone"/>
+					                <h:outputText value="#{ph.numbr}" />
 					            </p:column>
 					            <p:column headerText="Ação">
-					                <p:commandLink value="Remover" update=":form:phoneTable" process=":form:phoneTable">
+					                <p:commandLink value="Remover" update=":form2:phoneTable" process=":form2:phoneTable">
 					                	<p:collector value="#{ph}" removeFrom="#{ContactBean.listPhones}" unique="true"/>
 					                </p:commandLink>
 					            </p:column>
@@ -191,27 +195,28 @@
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Operadora: "/></p:column>
-                		<p:column><p:inputText value="#{ContactBean.newPhone.oper}" /></p:column>
+                		<p:column><p:inputText value="#{ContactBean.newPhone.oper}" onblur="value=value.toUpperCase()"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><h:outputText value="Número: "/></p:column>
-                		<p:column><p:inputMask value="#{ContactBean.newPhone.numbr}" mask="(99)9-9999-9999"/></p:column>
+                		<p:column><p:inputMask value="#{ContactBean.newPhone.numbr}" mask="(99)9-9999-9999" required="true" label="Número Telefone"/></p:column>
                     </p:row>
                     <p:row>
                 		<p:column><p:commandButton id="resetPhone" value="limpar" type="reset"/></p:column>
-            			<p:column><p:commandButton id="addPhone" value="Add" update=":form:telefone" process=":form:telefone" action="#{ContactBean.reinit}" >
+            			<p:column><p:commandButton id="addPhone" value="Add" update=":form2:telefone" process=":form2:telefone" action="#{ContactBean.reinit}" >
                 				  <p:collector value="#{ContactBean.newPhone}" addTo="#{ContactBean.listPhones}"  unique="true"/></p:commandButton></p:column>
                 	</p:row>
                 </p:panelGrid>
             </p:panel>
- 
+	</h:form> 
+	<h:form id="form3">   
             <p:panel header="Confirmação">
 				<h:panelGrid columns="1">
-					<p:commandButton value="Salvar" update="@this" action="#{ContactBean.saveAll}" />
-				</h:panelGrid> 
+					<p:commandButton value="Salvar" onclick="document.getElementById('form1').submit()" actionListener="#{ContactBean.saveAll}" />
+				</h:panelGrid>
             </p:panel>
- 
-</h:form>
+	</h:form>
+
 	
 </h:body>
 

@@ -10,4 +10,5 @@ public interface ContactDAO {
 	public void update(Contact contact);
 	public void remove(Contact contact);
 	public List<Contact> findAll();
+	public Long lastId();
 }

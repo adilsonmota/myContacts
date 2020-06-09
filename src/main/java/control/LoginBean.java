@@ -42,8 +42,7 @@ public class LoginBean {
 		this.registeredUsers = this.userDao.findAll();
 
 		for (User listUsers : registeredUsers) {
-			if ((listUsers.getUsername().equals(usrLogin) && listUsers.getPassword().equals(pswLogin))) {
-				System.out.println(listUsers.getUsername());
+			if ((listUsers.getUsername().equalsIgnoreCase(usrLogin) && listUsers.getPassword().equals(pswLogin))) {
 				msg = true;
 				this.current.setId(listUsers.getId());
 				this.current.setName(listUsers.getName());

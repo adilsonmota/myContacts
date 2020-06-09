@@ -104,7 +104,33 @@ public class ContactDAOImpl implements ContactDAO{
 		return listContacts;
 	}
 
-	public Long selectId() {
+	
+	public Long lastId() {
+		String sql = "SELECT SEQ_CONTACT.CURRVAL FROM DUAL";
+		
+		Long backId = null;
+		
+		Connection conn;
+		
+		try {
+			conn = JpaUtil.getConnection();
+			
+			PreparedStatement ps = conn.prepareStatement(sql);
+			
+			ResultSet  rs = ps.executeQuery();
+			
+			while (rs.next()) {
+				backId = rs.getLong(1);	
+			}
+			ps.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return backId;
+	}
+	
+	
+	private Long selectId() {
 		
 		String sql = "SELECT SEQ_CONTACT.NEXTVAL FROM DUAL";
 		

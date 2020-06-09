@@ -103,7 +103,7 @@ public class PhoneDAOImpl implements PhoneDAO {
 		return listPhones;
 	}
 
-	public Long selectId() {
+	private Long selectId() {
 		String sql = "SELECT SEQ_PHONE.NEXTVAL FROM DUAL";
 		
 		Long backId = null;

@@ -1,6 +1,3 @@
-/dao/
-/util/
-/entities/
 /control/
-/webapp/
-/teste/
+/dao/
+/entities/
