@@ -16,6 +16,13 @@ public class Contact {
 	private List<Adress> adresses = new ArrayList<Adress>();
 	
 	
+	public void addAdress(Adress adress) {
+		this.adresses.add(adress);
+	}
+	
+	public void addPhone(Phone phone) {
+		this.phones.add(phone);
+	}
 	
 	public Long getId() {
 		return id;

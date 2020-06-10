@@ -47,8 +47,8 @@
 		}
 	    
 	</style>
- 
- 
+	
+  
 <h:form id="form1">
 
     <p:growl id="growl" showDetail="true" showSummary="false" sticky="false" /> 
@@ -212,7 +212,7 @@
 	<h:form id="form3">   
             <p:panel header="Confirmação">
 				<h:panelGrid columns="1">
-					<p:commandButton value="Salvar" onclick="document.getElementById('form1').submit()" actionListener="#{ContactBean.saveAll}" />
+					<p:commandButton value="Salvar" actionListener="#{ContactBean.saveAll}" update=":form1 :form2 :form3"/>
 				</h:panelGrid>
             </p:panel>
 	</h:form>

@@ -22,6 +22,8 @@ import util.SessionUtil;
 @SessionScoped
 public class ContactBean {
 	
+	private String keyword;
+	
 	private User currentUser;
 	private Contact newContact;
 	private Phone newPhone;
@@ -29,6 +31,7 @@ public class ContactBean {
 	
 	private List<Phone> listPhones;
 	private List<Adress> listAdress;
+	private List<Contact> listContacts;
 	
 	private ContactDAO contactDao;
 	private AdressDAO adressDao;
@@ -43,6 +46,7 @@ public class ContactBean {
 		
 		this.listPhones = new ArrayList<Phone>();
 		this.listAdress = new ArrayList<Adress>();
+		this.listContacts = new ArrayList<Contact>();
 		
 		this.contactDao = new ContactDAOImpl();
 		this.adressDao = new AdressDAOImpl();
@@ -51,6 +55,10 @@ public class ContactBean {
 		currentUser();
 	}
 	
+	
+	public void search() {
+		this.listContacts = contactDao.searchContact(currentUser, keyword);
+	}
 	
 	
 	private void currentUser() {
@@ -70,9 +78,7 @@ public class ContactBean {
    	
     	if (this.newContact.getName() != null) {
     		this.newContact.setUser(this.currentUser);
-    		this.contactDao.insert(this.newContact);			
-    		
-    		this.newContact.setId(contactDao.lastId());
+    		this.newContact.setId(this.contactDao.insert(this.newContact));			
     		
 	    	for (Adress adress : listAdress) {
 				adress.setContact(this.newContact);
@@ -80,12 +86,12 @@ public class ContactBean {
 			}
 	    	for (Phone phone : listPhones) {
 				phone.setContact(this.newContact);
-				phoneDao.insert(this.newPhone);
+				phoneDao.insert(phone);
 			}
-	    	this.newContact = new Contact();
-	    	this.newAdress = new Adress();
-	    	this.newPhone = new Phone();
     	}
+    	this.newContact = new Contact();
+    	this.listAdress = new ArrayList<Adress>();
+    	this.listPhones = new ArrayList<Phone>();
     }
     
 	
@@ -119,6 +125,24 @@ public class ContactBean {
 
 	public User getCurrentUser() {
 		return currentUser;
+	}
+
+
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+
+
+	public List<Contact> getListContacts() {
+		return listContacts;
 	}
 	
 }
